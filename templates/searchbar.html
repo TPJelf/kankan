@@ -1,0 +1,65 @@
+<div class="d-flex align-items-center flex-wrap flex-md-nowrap pt-1 pb-1">
+  {% if pending %}
+    {% spaceless %}
+      <div class="align-items-center flex-fill">
+        <button class="btn btn-lg btn-dark py-1 px-2 rounded-end"
+                id="dice-button"
+                hx-get="/dice_roll/"
+                hx-swap="outerHTML"
+                hx-target="next"
+                hx-trigger="click throttle:300ms"
+                aria-label="random-task">
+          <span id="dice">🎲</span>
+        </button>
+        <span class="align-middle p-1 fs-5">Undecided? Roll for it!</span>
+      </div>
+    {% endspaceless %}
+  {% else %}
+    <div class="align-items-center flex-fill">
+      <button class="btn btn-lg btn-dark py-1 px-2 rounded-end" id="dice-button">
+        <span id="dice">🥳</span>
+      </button>
+      <span class="align-middle p-1 ps-0 fs-5">No tasks pending!</span>
+    </div>
+  {% endif %}
+  <search class="align-items-center">
+  <div class="input-group pb-1 mt-1">
+    <div class="pt-1 ps-1 pe-2">
+      <div class="spinner-border htmx-indicator text-warning"
+           id="search-spinner"
+           role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <input class="form-control rounded-start"
+           list="search-task-list"
+           placeholder="Type to search"
+           name="search-term"
+           id="search-term"
+           task-id=""
+           hx-get="/search_task"
+           hx-target="#search-task-list"
+           hx-indicator="#search-spinner"
+           hx-trigger="keyup[checkUserKeydown.call(this, event)&&document.getElementById('search-term').value!=''] changed delay:300ms">
+    <button class="btn btn-dark px-2 pb-1 pt-0 border-secondary-subtle"
+            title="Go to"
+            hx-indicator="#search-spinner"
+            hx-target="body"
+            hx-swap="innerHTML"
+            hx-push-url="true"
+            id="search-button">
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="16"
+           height="16"
+           fill="currentColor"
+           class="bi bi-box-arrow-in-up-right"
+           viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5" />
+        <path fill-rule="evenodd" d="M11 5.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793l-8.147 8.146a.5.5 0 0 0 .708.708L10 6.707V10.5a.5.5 0 0 0 1 0z" />
+      </svg>
+    </button>
+  </div>
+  </search>
+  <datalist id="search-task-list">
+  </datalist>
+</div>

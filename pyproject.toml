@@ -1,0 +1,4 @@
+[tool.djlint]
+ignore="H029,H030,H031,H021"
+profile="django"
+use_gitignore=true

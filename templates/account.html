@@ -1,0 +1,125 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+  <div class="row p-2 pt-1">
+    <div class="col-lg-4 col-sm-12 p-1">
+      <div class="card mb-2">
+        <div class="card-body">
+          <div class="pb-2">
+            To enable the AI feature get your free Google Gemini API key here: <a href="https://aistudio.google.com/app/u/0/apikey">https://aistudio.google.com/app/u/0/apikey</a>
+          </div>
+          <form method="POST"
+                hx-boost="true"
+                hx-indicator="#main-spinner"
+                action="{% url 'account' %}">
+            {% csrf_token %}
+            <div class="form-floating pb-3">
+              <input type="text" class="form-control" id="apikey" name="apikey" placeholder="Enter Google AI API Key" {% if apikey != "" %}value={{ apikey }}{% endif %}>
+              <label for="apikey">Enter Google Gemini API Key:</label>
+            </div>
+            <div class="text-end">
+              <button type="submit"
+                      class="btn btn-outline-light rounded-pill px-4"
+                      name="update-apikey">Update API Key</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-12 p-1">
+      <div class="card mb-2">
+        <div class="card-body ">
+          <form method="POST"
+                hx-boost="true"
+                hx-indicator="#main-spinner"
+                action="{% url 'account' %}">
+            {% csrf_token %}
+            <div class="form-floating pb-2">
+              {{ change_password_form.new_password1 }}
+              {{ change_password_form.new_password1.label_tag }}
+            </div>
+            <div class="form-floating pb-3">
+              {{ change_password_form.new_password2 }}
+              {{ change_password_form.new_password2.label_tag }}
+            </div>
+            <div class="text-end">
+              <button type="submit"
+                      class="btn btn-outline-light rounded-pill px-4"
+                      name="change-password">Change password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-12 p-1">
+      <div class="card mb-2">
+        <div class="card-body">
+          <form method="POST"
+                hx-boost="true"
+                hx-indicator="#main-spinner"
+                action="{% url 'account' %}">
+            {% csrf_token %}
+            <div class="form-floating pb-3">
+              {{ update_email_form.email }}
+              {{ update_email_form.email.label_tag }}
+            </div>
+            <div class="text-end">
+              <button type="submit"
+                      class="btn btn-outline-light rounded-pill px-4"
+                      name="update-email">Update email</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-12 p-1">
+      <div class="card mb-2">
+        <div class="card-body d-grid">
+          <button type="button"
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteAccountModal">Delete account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade"
+       id="deleteAccountModal"
+       tabindex="-1"
+       aria-labelledby="deleteAccountModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content bg-danger-subtle text-danger-emphasis">
+        <div class="modal-header py-2">
+          <h4 class="modal-title" id="deleteAccountModalLabel">Confirm account deletion</h4>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2">
+          <div>WARNING: ALL YOUR DATA WILL BE DELETED.</div>
+          <div class="pb-2">THIS OPERATION CANNOT BE UNDONE.</div>
+          <form method="POST"
+                action="{% url 'account' %}"
+                hx-boost="true"
+                hx-indicator="#main-spinner">
+            {% csrf_token %}
+            <div class="form-floating pb-2">
+              <input type="password"
+                     class="form-control"
+                     id="password"
+                     name="password"
+                     placeholder="Enter Password"
+                     required>
+              <label for="password">Please enter your password to confirm deletion:</label>
+            </div>
+            <div class="text-end">
+              <button type="submit" class="btn btn-danger" name="delete-account">Delete account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

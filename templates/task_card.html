@@ -1,0 +1,68 @@
+<div class="p-1 task"
+     id="{{ task.pk }}"
+     hx-post="/update_task_position/{{ task.pk }}/{{ task.status }}/{{ task.position }}/"
+     hx-trigger="update_task_position"
+     hx-swap="none">
+  <div class="card card-expandable card-{{ task.pk }} border-secondary px-1 py-2 bg-light-subtle text-white">
+    <div class="card-body p-0">
+      <div class="fs-5 row px-3 ">
+        <div class="col-10 p-0 ps-1 card-expandable-toggler">
+          <span class="handle ms-0 me-1 cursor-grab" title="Try dragging ;)">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 fill="currentColor"
+                 class="bi bi-arrows-move "
+                 viewBox="0 0 16 16"
+                 aria-label="sort handle"
+                 role="img">
+              <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8" />
+            </svg>
+          </span>
+          <span class="fw-semibold card-expandable-toggler user-select-text task-name">{{ task.name }}</span>
+        </div>
+        <div class="col-2 p-0 text-end card-expandable-toggler">
+          <div class="dropdown card-expandable-toggler">
+            <button type="button"
+                    class="btn btn-lg btn-dark dropdown-toggle border-0 m-0 py-1 px-3"
+                    data-bs-toggle="dropdown"
+                    id="dropdown-{{ task.pk }}"
+                    aria-expanded="false"
+                    aria-label="dropdown menu"
+                    title="Menu"></button>
+            <ul class="dropdown-menu bg-secondary-subtle border-0 rounded p-0 fs-5">
+              <li>
+                <a class="dropdown-item p-2 rounded-top"
+                   hx-get="{% url 'task' pk=task.pk %}"
+                   hx-target="body"
+                   hx-swap="innerHTML"
+                   hx-indicator="#main-spinner"
+                   hx-push-url="true"
+                   href="{% url 'task' pk=task.pk %}"
+                   title="View details">👀</a>
+              </li>
+              <li>
+                <a class="dropdown-item p-2"
+                   hx-get="{% url 'edit_task' pk=task.pk %}"
+                   hx-target=".card-{{ task.pk }}"
+                   hx-swap="outerHTML"
+                   hx-indicator="#main-spinner"
+                   title="Edit">✏️</a>
+              </li>
+              <li>
+                <a class="dropdown-item p-2 rounded-bottom"
+                   type="button"
+                   hx-post="{% url 'delete_task' pk=task.pk %}"
+                   hx-target="body"
+                   hx-swap="outerHTML"
+                   hx-indicator="#main-spinner"
+                   hx-confirm="Are you sure you want to delete '{{ task.name }}'? This action will also delete its subtasks."
+                   title="Delete">🗑️</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

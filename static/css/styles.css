@@ -1,0 +1,74 @@
+.user-select-text {
+  user-select: text !important;
+}
+
+.btn-noeffect {
+  transition: none !important;
+  background-color: transparent !important;
+}
+
+.btn-noeffect:hover,
+.btn-noeffect:active {
+  background-color: inherit;
+}
+
+.cursor-grab {
+  cursor: grab;
+}
+
+.toast {
+  z-index: 1090;
+}
+
+.dropdown-menu {
+  min-width: auto !important;
+  width: auto !important;
+}
+
+.card-expandable {
+  overflow: hidden;
+  max-height: 4.9rem;
+  height: auto;
+}
+
+.card-expandable.expanded {
+  max-height: 100%;
+  overflow: visible;
+}
+
+.htmx-indicator {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+
+.htmx-request .htmx-indicator {
+  opacity: 1;
+}
+
+.htmx-request.htmx-indicator {
+  opacity: 1;
+}
+
+#dice {
+  display: inline-block;
+}
+
+.roll {
+  transform-origin: 50% 55%;
+  animation: roll 0.75s linear;
+}
+
+@keyframes roll {
+  0% {
+    transform: rotate(0deg);
+  }
+  33% {
+    transform: rotate(360deg);
+  }
+  66% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(1080deg);
+  }
+}

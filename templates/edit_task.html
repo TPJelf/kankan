@@ -1,0 +1,48 @@
+{% url 'home' as home_url %}
+<div class="card border-secondary p-2 bg-light-subtle"
+     hx-preserve="false">
+  <form method="post"
+        hx-boost="true"
+        action="{% url 'edit_task' pk=task.pk %}">
+    {% csrf_token %}
+    <div class="input-group input-group-lg">
+      <textarea class="form-control"
+                id="name"
+                name="name"
+                maxlength="255"
+                required
+                autocomplete="off"
+                placeholder="Name:"
+                value="">{{ task.name }}</textarea>
+      <div class="dropdown d-flex rounded-end">
+        <button type="button"
+                class="btn btn-lg btn-dark dropdown-toggle border-secondary-subtle m-0 py-1 px-3 rounded-0 rounded-end border-start"
+                data-bs-toggle="dropdown"
+                id="dropdown-{{ task.pk }}"
+                aria-expanded="false"
+                aria-label="dropdown menu"
+                title="Menu"></button>
+        <ul class="dropdown-menu bg-secondary-subtle border-0 rounded p-0 fs-5">
+          <li>
+            <a class="dropdown-item p-2 rounded-top"
+               type="submit"
+               title="Ok"
+               hx-post="{% url 'edit_task' pk=task.pk %}"
+               hx-target="body"
+               hx-swap="outerHTML"
+               hx-indicator="#main-spinner">👍</a>
+          </li>
+          <li>
+            <a class="dropdown-item p-2 rounded-bottom"
+               type="button"
+               hx-get="{% if request.path == home_url %}{% url 'home' %}{% elif task.parent %}{% url 'task' pk=task.parent.pk %}{% endif %}"
+               hx-target="body"
+               hx-swap="outerHTML"
+               hx-indicator="#main-spinner"
+               title="Cancel">❌</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </form>
+</div>

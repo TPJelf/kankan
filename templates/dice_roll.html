@@ -1,0 +1,5 @@
+<a class="btn btn-lg py-1 px-2 btn-light border-0 text-start rounded-start"
+   href="{% url 'task' pk=task.parent.pk %}"
+   hx-boost="true"
+   hx-indicator="#main-spinner"
+   title="Go '{{ task.name }}'">💪 Go "{{ task.name|truncatechars:20 }}"!</a>

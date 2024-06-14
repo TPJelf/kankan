@@ -1,0 +1,44 @@
+{% url 'home' as home_url %}
+{% url 'account' as account_url %}
+<nav class="row align-items-center pt-2 ">
+  <h1 class="fs-1 col-8 col-md-9 col-lg-10 mb-0 text-truncate pb-1"
+      title="{{ title }}">{{ title }}</h1>
+  <div class="col-4 col-md-3 col-lg-2 ps-0">
+    <button class="btn btn-dark w-100 text-truncate fs-5 px-1 pb-2 "
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            title="Menu • {{ user.username }}">
+      <span class="ps-1">😃 {{ user.username }}</span>
+    </button>
+    <ul class="dropdown-menu bg-secondary-subtle border-0 p-0">
+      {% if request.path != home_url %}
+        <li>
+          <a class="dropdown-item rounded-top p-2" href="{% url 'home' %}">🏠 Home</a>
+        </li>
+      {% endif %}
+      {% if request.path != account_url %}
+        <li>
+          <a class="dropdown-item rounded-top p-2"
+             href="{% url 'account' %}"
+             hx-indicator="#main-spinner"
+             hx-boost="true">⚙️ Account</a>
+        </li>
+      {% endif %}
+      <li>
+        <button type="button"
+                class="dropdown-item p-2"
+                data-bs-toggle="modal"
+                data-bs-target="#help-modal">❤️ Help & Credits</button>
+      </li>
+      {% if request.user.is_superuser == 1 %}
+        <li>
+          <a class="dropdown-item p-2" href="{% url 'admin:index' %}">🛠️ Admin</a>
+        </li>
+      {% endif %}
+      <li>
+        <a class="dropdown-item rounded-bottom p-2" href="{% url 'logout' %}">🚪 Log Out</a>
+      </li>
+    </ul>
+  </div>
+</nav>

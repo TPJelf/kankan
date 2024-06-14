@@ -1,0 +1,68 @@
+{% extends "main.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+  <div class="pb-1">
+    <small>
+      {% spaceless %}
+        <span>Go to&nbsp</span>
+        <a href="{% url "home" %}"
+           hx-boost="true"
+           hx-indicator="#main-spinner"
+           hx-push-url="true">Home</a>
+        {% if parent.parent %}
+          <span>&nbsp· Go up one level:&nbsp</span>
+          <a href="{% url "task" parent.parent.pk %}"
+             hx-boost="true"
+             hx-push-url="true"
+             hx-indicator="#main-spinner"
+             title="{{ parent.parent.name|remove_linebreaks }}">{{ parent.parent.name|truncatechars:50 }}</a>
+        {% endif %}
+      {% endspaceless %}
+    </small>
+  </div>
+  {% include "searchbar.html" %}
+  <div class="row px-2">
+    <div class="status col-lg-4 col-sm-12 p-1" id="status-1">
+      <div class="status-body border rounded-2 border-primary bg-primary-subtle pb-5">
+        <h4 class="m-0 p-1">Pending</h4>
+        {% include "create_task.html" %}
+        {% if tasks|length < 4 %}
+          <div class="p-1">
+            <a class="btn btn-primary btn-lg w-100"
+               {% if apikey %}id="button-ai"{% else %} href="{% url 'account' %}" hx-boost="true" hx-indicator="#main-spinner"{% endif %}>✨Create with AI</a>
+          </div>
+        {% endif %}
+        {% for task in tasks_pending %}
+          {% include "task_card.html" %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="status col-lg-4 col-sm-12 p-1" id="status-2">
+      <div class="status-body border rounded-2 border-info bg-info-subtle pb-5">
+        <h4 class="m-0 p-1">In progress</h4>
+        {% for task in tasks_inprogress %}
+          {% include "task_card.html" %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="status col-lg-4 col-sm-12 p-1 " id="status-3">
+      <div class="status-body border rounded-2 border-success bg-success-subtle pb-5">
+        <h4 class="m-0 p-1">Done</h4>
+        {% for task in tasks_done %}
+          {% include "task_card.html" %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <script>
+    var API_KEY = "{{ apikey }}";
+    var parent_name = "{{ parent.name }}";
+    var parent_pk = {{ parent.pk }};
+    {% if subtasks %}
+    var subtasks = "{% for task in subtasks %}{{ task.name }},{% endfor %}";
+    {% else %}
+    var subtasks = "None"
+    {% endif %}
+  </script>
+{% endblock content %}

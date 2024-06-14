@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>kankan</title>
+    <meta name="description" content="Get the ball rolling.">
+    <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+            integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+            crossorigin="anonymous"></script>
+  </head>
+  <body class="overflow-x-hidden">
+    <main class="container">
+      <div class="text-center">
+        <img class="d-block mx-auto mt-5 mb-4"
+             src="{% static 'logo.webp' %}"
+             alt="logo"
+             width="64"
+             height="64">
+        <h1 class="fw-bold text-body-emphasis">kankan</h1>
+        <h2 class="fw-bold text-body-emphasis pt-3 pb-4 mb-0 fs-3">An Designed to get the ball rolling.</h2>
+        <div class="col-lg-7 mx-auto pb-4">
+          <div class="lead mb-4">
+            All progress is good progress.
+            <br>
+            Visualize your objectives and break them down as much as you need.
+            <br>
+            Start with small steps and track every achievement, no matter how small.
+            <br>
+            Record your journey so you can look back and stay motivated.
+          </div>
+          {% if messages %}
+            <div class="alert alert-warning p-2">
+              {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+            </div>
+          {% endif %}
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center py-2">
+            <button type="button"
+                    class="btn btn-light btn-lg gap-3 rounded-pill px-4"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signup-modal">Sign up</button>
+            <button type="button"
+                    class="btn btn-outline-light btn-lg rounded-pill px-4"
+                    data-bs-toggle="modal"
+                    data-bs-target="#login-modal">Log in</button>
+          </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+            <img src="{% static 'screenshot.webp' %}"
+                 class="img-fluid border rounded-3 shadow-lg mb-4"
+                 alt="App screenshot">
+          </div>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+        <div class="col d-flex align-items-start ">
+          <span class="fs-3 pe-1">🧩</span>
+          <div>
+            <div class="fw-bold text-body-emphasis fs-5 pb-1">Infinitely nested kanbans.</div>
+            <p>
+              Break down any objective into bite-sized steps. Organize your thoughts and create a clear path to completion, no matter how big the goal.
+            </p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <span class="fs-3 pe-2">🕊️</span>
+          <div>
+            <div class="fw-bold text-body-emphasis  fs-5 pb-1">Simplicity works.</div>
+            <p>
+              Ditch the clutter and focus on what matters. Scoped visualization and minimalist design makes managing your tasks effortless.
+            </p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <span class="fs-3 pe-1">🏃</span>
+          <div>
+            <div class="fw-bold text-body-emphasis fs-5 pb-1">Stay motivated wherever you go.</div>
+            <p>Track progress anytime, anywhere. Quickly access from any device, so you never miss a beat.</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <span class="fs-3 pe-1">🧙‍♂️</span>
+          <div>
+            <div class="fw-bold text-body-emphasis fs-5 pb-1">Free and open source.</div>
+            <p>Forever.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="text-center">
+      {% include "credits.html" %}
+      <div class="pt-2 pb-5 col-8 mx-auto">
+        This website uses strictly necessary session cookies to ensure its basic functionality and security. These cookies do not require your consent. For more details, please refer to our <a href
+    data-bs-toggle="modal"
+    data-bs-target="#privacy-modal"
+    class="link-light">privacy policy</a>.
+      </div>
+    </footer>
+    {% include "login_modals.html" %}
+    {% include "privacy_policy.html" %}
+    <script>
+      var submit_buttons = document.querySelectorAll('.btn-submit');
+      var old_innerHTML
+      submit_buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setTimeout(() => {
+            old_innerHTML = button.innerHTML
+            button.style.minWidth = button.offsetWidth + 'px';;
+            button.innerHTML =
+              '<div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div>';
+            button.disabled = true;
+            }, 25);
+            setTimeout(() => {
+              button.innerHTML = old_innerHTML;
+              button.disabled = false;
+            }, 2500);
+        });
+      });
+    </script>
+  </body>
+</html>

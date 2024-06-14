@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}">
+    <title>kankan - {{ title }}</title>
+    <meta name="description" content="Get the ball rolling.">
+    <!--JS-->
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <!--CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  </head>
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        class="min-vh-100 bg-dark-subtle text-white">
+    <a class="visually-hidden-focusable" href="#main-content">Skip to main content</a>
+    <main class="container mb-5 pb-5 user-select-none" id="main-content">
+      {% include "navbar.html" %}
+      {% if messages %}
+        <div class="alert alert-warning p-2 mt-2 mb-0 text-center">
+          {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+        </div>
+      {% endif %}
+      {% block content %}
+      {% endblock content %}
+    </main>
+    <div class="toast align-items-center position-fixed top-50 start-50 translate-middle bg-danger "
+         role="alert"
+         aria-live="assertive"
+         aria-atomic="true"
+         data-bs-autohide="false"
+         id="error-toast">
+      <div class="d-flex">
+        <div class="toast-body fs-5 text-center">
+          Something went wrong, please refresh the page.
+          <div id="error-toast-message"></div>
+        </div>
+        <button type="button"
+                class="btn-close p-2 me-1 mt-1"
+                data-bs-dismiss="toast"
+                aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="modal fade"
+         id="help-modal"
+         tabindex="-1"
+         aria-labelledby="help-modal-label"
+         aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header py-2">
+            <h4 class="modal-title" id="help-modal-label">Help & Credits</h4>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center p-2">
+            <div class="row py-1">
+              <div class="col-3">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="20"
+                     height="20"
+                     fill="currentColor"
+                     class="bi bi-arrows-move "
+                     viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8" />
+                </svg>
+                Drag to sort
+              </div>
+              <div class="col-3">✏️ Edit</div>
+              <div class="col-3">👀 View details</div>
+              <div class="col-3">🗑️ Delete</div>
+            </div>
+            <div class="pt-2 d-grid gap-2">
+              <a href="https://github.com/TPJelf/kankan/issues"
+                 target="_blank"
+                 class="btn btn-light">🛠️ Report any issues here</a>
+            </div>
+            <div class="pt-2 d-grid gap-2">
+              <a href="https://ko-fi.com/tpjelf"
+                 target="_blank"
+                 class="btn btn-light"
+                 {% comment %}
+                 data-bs-toggle="modal"
+                 data-bs-target="#donation-modal"
+                 {% endcomment %}>💖 You can support the project here</a>
+            </div>
+            {% include "credits.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="position-absolute top-50 start-50 translate-middle">
+      <div class="spinner-border htmx-indicator text-warning"
+           id="main-spinner"
+           role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"></script>
+    <script src="{% static '/js/script.js' %}"></script>
+    <script src="{% static '/js/ai.js' %}" type="module"></script>
+  </body>
+</html>

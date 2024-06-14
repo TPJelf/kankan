@@ -1,0 +1,22 @@
+<div class="p-1">
+  <div class="card border-secondary p-2 bg-light-subtle">
+    <form method="POST"
+          hx-boost="true"
+          hx-indicator="#main-spinner"
+          action="{% url 'create_task' parent_pk=parent_pk %}">
+      {% csrf_token %}
+      <div class="input-group input-group-lg">
+        <textarea class="form-control"
+                  id="name"
+                  name="name"
+                  maxlength="255"
+                  required
+                  autocomplete="off"
+                  placeholder="Create new"></textarea>
+        <button type="submit"
+                class="btn btn-dark px-2 border-secondary-subtle"
+                title="Create">👍</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="modal fade"
+     id="login-modal"
+     tabindex="-1"
+     aria-labelledby="login-modal-label"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h4 class="modal-title" id="login-modal-label">Log in</h4>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-floating pb-3">
+            {{ login_form.username }}
+            {{ login_form.username.label_tag }}
+          </div>
+          <div class="form-floating">
+            {{ login_form.password }}
+            {{ login_form.password.label_tag }}
+          </div>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button"
+                  class="btn btn-outline-warning me-auto rounded-pill px-4"
+                  data-bs-target="#reset-modal"
+                  data-bs-toggle="modal">Password reset</button>
+          <button type="submit"
+                  class="btn btn-light rounded-pill px-4 btn-submit"
+                  name="login">Enter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade"
+     id="signup-modal"
+     tabindex="-1"
+     aria-labelledby="signup-modal-label"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h4 class="modal-title" id="signup-modal-label">Sign up</h4>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-floating pb-3">
+            {{ signup_form.username }}
+            {{ signup_form.username.label_tag }}
+          </div>
+          <div class="form-floating pb-3">
+            {{ signup_form.email }}
+            {{ signup_form.email.label_tag }}
+          </div>
+          <div class="form-floating pb-3">
+            {{ signup_form.password1 }}
+            {{ signup_form.password1.label_tag }}
+          </div>
+          <div class="form-floating pb-3">
+            {{ signup_form.password2 }}
+            {{ signup_form.password2.label_tag }}
+          </div>
+          <ul class="mb-0">
+            <li>Your password can’t be too similar to your other personal information.</li>
+            <li>Your password must contain at least 8 characters.</li>
+            <li>Your password can’t be a commonly used password.</li>
+            <li>Your password can’t be entirely numeric.</li>
+          </ul>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="submit"
+                  class="btn btn-light rounded-pill px-4 btn-submit"
+                  name="signup">Join</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade"
+     id="reset-modal"
+     tabindex="-1"
+     aria-labelledby="reset-modal-label"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h4 class="modal-title" id="reset-modal-label">Password reset</h4>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-floating">
+            {{ reset_form.email }}
+            {{ reset_form.email.label_tag }}
+          </div>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button"
+                  class="btn btn-outline-light rounded-pill px-4"
+                  data-bs-target="#login-modal"
+                  data-bs-toggle="modal">Back</button>
+          <button type="submit"
+                  class="btn btn-light rounded-pill px-4 btn-submit"
+                  name="reset">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

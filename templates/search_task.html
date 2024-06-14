@@ -1,0 +1,10 @@
+{% load custom_filters %}
+{% for task in tasks %}
+  {% if task.parent == Null %}
+    <option value="Home > {{ task.name|truncatechars:30|remove_linebreaks }}"
+            task-id="0"></option>
+  {% else %}
+    <option value="{{ task.parent.name|truncatechars:30|remove_linebreaks }} > {{ task.name|truncatechars:30|remove_linebreaks }}"
+            task-id="{{ task.parent.pk }}"></option>
+  {% endif %}
+{% endfor %}
