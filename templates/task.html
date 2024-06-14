@@ -59,8 +59,8 @@
     var API_KEY = "{{ apikey }}";
     var parent_name = "{{ parent.name }}";
     var parent_pk = {{ parent.pk }};
-    {% if subtasks %}
-    var subtasks = "{% for task in subtasks %}{{ task.name }},{% endfor %}";
+    {% if tasks %}
+    var subtasks = "{% for task in tasks %}{{ task.name }},{% endfor %}";
     {% else %}
     var subtasks = "None"
     {% endif %}

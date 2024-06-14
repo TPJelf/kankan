@@ -68,12 +68,11 @@ class Task(models.Model):
         )
         SELECT
             SUM(CASE WHEN updated_on >= %s AND updated_on < %s THEN 1 ELSE 0 END) AS count_last_24_hours,
-            SUM(CASE WHEN updated_on >= %s AND updated_on < %s THEN 1 ELSE 0 END) AS count_last_7_days,
+            SUM(CASE WHEN updated_on >= %s AND updated_on < %s THEN 1 ELSE 0 END) AS count_last_7_days
             
         FROM core_task
         WHERE id IN (SELECT id FROM task_tree)
         """
-        # SUM(CASE WHEN status IN (1, 2) THEN 1 ELSE 0 END) AS count_status_unfinished
 
         with connection.cursor() as cursor:
             cursor.execute(query, [self.pk, last_24_hours, now, last_7_days, now])
@@ -82,7 +81,6 @@ class Task(models.Model):
         return {
             "count_last_24_hours": result[0],
             "count_last_7_days": result[1],
-            # "count_status_unfinished": result[2],
         }
 
     def random_unfinished_base_task(self):

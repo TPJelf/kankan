@@ -1,4 +1,4 @@
-// Sortables, dice animation, and search button activations
+// Main activation
 var sortablejs_options = {
   group: 'tasks',
   draggable: '.task',
@@ -44,6 +44,7 @@ function activate_stuff() {
     status_sortable = new Sortable(status, sortablejs_options);
   });
 
+  // Dice animation
   var diceButton = document.getElementById('dice-button');
   if (diceButton) {
     diceButton.addEventListener('click', () => {
@@ -54,6 +55,7 @@ function activate_stuff() {
     });
   }
 
+  //Search button update
   var search_button = document.getElementById('search-button');
   var search_term = document.getElementById('search-term');
   if (search_term) {
@@ -91,7 +93,7 @@ document.addEventListener('htmx:afterSwap', () => {
   activate_stuff();
 });
 
-// Hack for datalist search proper function
+// Hack for datalist search proper functioning
 function checkUserKeydown(event) {
   return event instanceof KeyboardEvent;
 }

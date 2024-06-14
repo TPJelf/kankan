@@ -1,3 +1,4 @@
+{% url 'home' as home_url %}
 <div class="p-1 task"
      id="{{ task.pk }}"
      hx-post="/update_task_position/{{ task.pk }}/{{ task.status }}/{{ task.position }}/"
@@ -20,6 +21,13 @@
             </svg>
           </span>
           <span class="fw-semibold card-expandable-toggler user-select-text task-name">{{ task.name }}</span>
+          {% if request.path == home_url %}
+            {% if task.count_last_24_hours > 0 %}
+              <div class="fs-6">{{ task.count_last_24_hours }} completed in the last 24hs!</div>
+            {% elif task.count_last_7_days > 0 %}
+              <div class="fs-6">{{ task.count_last_7_days }} completed in the last week!</div>
+            {% endif %}
+          {% endif %}
         </div>
         <div class="col-2 p-0 text-end card-expandable-toggler">
           <div class="dropdown card-expandable-toggler">

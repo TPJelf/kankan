@@ -3,11 +3,12 @@
 {% block content %}
   {% include "searchbar.html" %}
   <div class="status row justify-content-center" id="status-1">
-    <div class="status-body px-2 col-lg-6 col-sm-12">
+    <div class="status-body px-2 col-lg-6 col-sm-12 home-status">
       {% for task in tasks %}
         {% include "task_card.html" %}
       {% endfor %}
       {% include "create_task.html" %}
     </div>
   </div>
+  <style></style>
 {% endblock content %}

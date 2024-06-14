@@ -186,6 +186,17 @@ def home(request):
     ).exists()
     tasks = tasks.filter(parent=None)
 
+    for task in tasks:
+        counts = task.count_recently_updated_subtasks()
+        task.count_last_24_hours = counts["count_last_24_hours"]
+        task.count_last_7_days = counts["count_last_7_days"]
+        # tasks.annotate(
+        #     {
+        #         "count_last_24_hours": counts["count_last_24_hours"],
+        #         "count_last_7_days": counts["count_last_7_days"],
+        #     }
+        # )
+
     context = {
         "tasks": tasks,
         "pending": pending,

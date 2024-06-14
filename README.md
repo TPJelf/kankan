@@ -25,3 +25,5 @@ Forever.
 [Python](https://python.org) · [django](https://www.djangoproject.com/) · [htmx](https://htmx.org/) · [Bootstrap](https://getbootstrap.com/) · [SortableJS](https://sortablejs.github.io/Sortable/) · [canvas-confetti](https://catdad.github.io/canvas-confetti/)
 
 #### 🧉 Made in Argentina
+
+#### 💖 You can support the project here: https://ko-fi.com/tpjelf

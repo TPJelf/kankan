@@ -7,7 +7,7 @@ async function run_ai(API_KEY, parent_name, parent_pk, subtasks) {
   const prompt =
     'Hi. This request is for a todo app. Please provide 5 new subtasks for this task: ' +
     parent_name +
-    ". Your reply must only contain the subtasks in a json array. Please provide tasks that can be completed without specifying equipement, for example clean floors instead of vacuum floors. Also avoid subtasks that refer to children or pets. Here's a list of all the subtasks already created, please avoid repeating them:" +
+    ". Your reply must only contain the subtasks in a json array. Please provide tasks that can be completed without specifying equipement, for example clean floors instead of vacuum floors. Also avoid subtasks that refer to children or pets. Here's a list of all the subtasks already created, please don't repeat them:" +
     subtasks +
     '. Thank you very much!';
 
