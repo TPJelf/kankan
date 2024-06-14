@@ -39,15 +39,20 @@ var sortablejs_options = {
 };
 
 function activate_stuff() {
-  var status_sortable;
   document.querySelectorAll('.status-body').forEach((status) => {
-    status_sortable = new Sortable(status, sortablejs_options);
+    new Sortable(status, sortablejs_options);
   });
 
+  // Previous link url update
+  var previous_link = document.getElementById('previous-link');
+  if (previous_link && sessionStorage.getItem('previous_url')) {
+    previous_link.setAttribute('href', sessionStorage.getItem('previous_url'));
+  }
+
   // Dice animation
-  var diceButton = document.getElementById('dice-button');
-  if (diceButton) {
-    diceButton.addEventListener('click', () => {
+  var dice_button = document.getElementById('dice-button');
+  if (dice_button) {
+    dice_button.addEventListener('click', () => {
       const dice = document.getElementById('dice');
       dice.classList.remove('roll');
       void dice.offsetWidth;
@@ -129,8 +134,14 @@ document.addEventListener('click', (event) => {
   }
 });
 
-// Prevents space name submissions.
+// Prevents space name submissions. Updates history for previous page link
 document.addEventListener('htmx:beforeRequest', (event) => {
+  var new_url = window.location.href;
+  var previous_url = sessionStorage.getItem('previous_url');
+  if (new_url != previous_url && !new_url.includes('/account/')) {
+    sessionStorage.setItem('previous_url', window.location.href);
+  }
+
   const form = event.detail.elt;
   const name_input = form.querySelector('#name');
 

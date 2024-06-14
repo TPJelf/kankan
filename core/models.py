@@ -72,6 +72,7 @@ class Task(models.Model):
             
         FROM core_task
         WHERE id IN (SELECT id FROM task_tree)
+        AND status = 3
         """
 
         with connection.cursor() as cursor:

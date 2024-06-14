@@ -23,9 +23,9 @@
           <span class="fw-semibold card-expandable-toggler user-select-text task-name">{{ task.name }}</span>
           {% if request.path == home_url %}
             {% if task.count_last_24_hours > 0 %}
-              <div class="fs-6">{{ task.count_last_24_hours }} completed in the last 24hs!</div>
+              <div class="fs-5">⭐ {{ task.count_last_24_hours }} completed in the last 24hs!</div>
             {% elif task.count_last_7_days > 0 %}
-              <div class="fs-6">{{ task.count_last_7_days }} completed in the last week!</div>
+              <div class="fs-5">⭐ {{ task.count_last_7_days }} completed in the last week!</div>
             {% endif %}
           {% endif %}
         </div>
@@ -55,7 +55,7 @@
                    hx-target=".card-{{ task.pk }}"
                    hx-swap="outerHTML"
                    hx-indicator="#main-spinner"
-                   title="Edit">✏️</a>
+                   title="Edit name">✏️</a>
               </li>
               <li>
                 <a class="dropdown-item p-2 rounded-bottom"

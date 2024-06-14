@@ -1,12 +1,22 @@
 {% extends "main.html" %}
+{% url 'account' as account_url %}
 {% load static %}
 {% block content %}
+  <div class="pb-1">
+    <small>
+      <a href="{% url "home" %}"
+         hx-boost="true"
+         hx-indicator="#main-spinner"
+         hx-push-url="true"
+         id="previous-link">Go to previous page</a>
+    </small>
+  </div>
   <div class="row p-2 pt-1">
     <div class="col-lg-4 col-sm-12 p-1">
       <div class="card mb-2">
         <div class="card-body">
           <div class="pb-2">
-            To enable the AI feature get your free Google Gemini API key here: <a href="https://aistudio.google.com/app/u/0/apikey">https://aistudio.google.com/app/u/0/apikey</a>
+            To enable the AI feature get your free Google Gemini API key here: <a href="https://aistudio.google.com/app/u/0/apikey" target="_blank">https://aistudio.google.com/app/u/0/apikey</a>
           </div>
           <form method="POST"
                 hx-boost="true"

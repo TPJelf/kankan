@@ -8,6 +8,7 @@ handler404 = views.redirect404
 urlpatterns = [
     # path("not-found/", views.redirect404, name="not-found"),
     path("", views.landing, name="login"),
+    path("accounts/login/", views.landing, name="login"),
     path("logout/", views.logout_user, name="logout"),
     path("account/", views.account, name="account"),
     path("home/", views.home, name="home"),
