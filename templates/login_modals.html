@@ -70,12 +70,15 @@
             {{ signup_form.password2 }}
             {{ signup_form.password2.label_tag }}
           </div>
-          <ul class="mb-0">
+          <ul class="mb-0 pb-3">
             <li>Your password can’t be too similar to your other personal information.</li>
             <li>Your password must contain at least 8 characters.</li>
             <li>Your password can’t be a commonly used password.</li>
             <li>Your password can’t be entirely numeric.</li>
           </ul>
+          <div class="cf-turnstile"
+               data-sitekey="{{ cloudflare_turnstile_site_key }}"
+               data-callback="javascriptCallback"></div>
         </div>
         <div class="modal-footer py-2">
           <button type="submit"
@@ -121,3 +124,5 @@
     </div>
   </div>
 </div>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
+        defer></script>

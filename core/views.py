@@ -1,9 +1,12 @@
 import json
+import os
 from random import choice
 
+import requests
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
@@ -12,53 +15,77 @@ from .forms import *
 from .models import Settings, Task
 
 
+def validate_turnstile_widget_response(token, request_ip):
+    secret_key = os.environ["CLOUDFLARE_TURNSTILE_SECRET_KEY"]
+    response = requests.post(
+        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        data={
+            "secret": secret_key,
+            "response": token,
+            "remoteip": request_ip,
+        },
+    ).json()
+    if not response["success"]:
+        raise ValidationError(
+            "Cloudflare was unable to validate you, please try again. If the problem persist please contact us."
+        )
+
+
 def landing(request):
-    # TODO: Cloudflare turnstile https://zepp133.com/django-turnstile-tutorial/
     signup_form = SignupForm()
     login_form = LoginForm()
     reset_form = ResetForm()
+    cloudflare_turnstile_site_key = os.environ["CLOUDFLARE_TURNSTILE_SITE_KEY"]
+
     if request.method == "POST":
         if "signup" in request.POST:
-            signup_form = SignupForm(request.POST)
-            if signup_form.is_valid():
-                user = signup_form.save()
-                login(request, user)
+            request_ip = request.META.get("REMOTE_ADDR")
+            token = request.POST.get("cf-turnstile-response")
+            try:
+                validate_turnstile_widget_response(token, request_ip)
+                signup_form = SignupForm(request.POST)
+                if signup_form.is_valid():
+                    user = signup_form.save()
+                    login(request, user)
 
-                # Create base tasks and subtasks
-                selfcare = Task.objects.create(user=user, name="Self care")
-                Task.objects.create(user=user, parent=selfcare, name="Work out")
-                house = Task.objects.create(user=user, name="House chores")
-                bathroom = Task.objects.create(
-                    user=user,
-                    name="Clean bathroom",
-                    parent=house,
-                    status=Task.Status.INPROGRESS,
-                )
-                Task.objects.create(
-                    user=user,
-                    name="Change towels",
-                    parent=bathroom,
-                    status=Task.Status.DONE,
-                )
-                Task.objects.create(
-                    user=user,
-                    name="Clean sink",
-                    parent=bathroom,
-                    status=Task.Status.PENDING,
-                )
-                Task.objects.create(user=user, name="Empty trashcans", parent=house)
-                Task.objects.create(user=user, name="Work stuff")
+                    # Create base tasks and subtasks
+                    selfcare = Task.objects.create(user=user, name="Self care")
+                    Task.objects.create(user=user, parent=selfcare, name="Work out")
+                    house = Task.objects.create(user=user, name="House chores")
+                    bathroom = Task.objects.create(
+                        user=user,
+                        name="Clean bathroom",
+                        parent=house,
+                        status=Task.Status.INPROGRESS,
+                    )
+                    Task.objects.create(
+                        user=user,
+                        name="Change towels",
+                        parent=bathroom,
+                        status=Task.Status.DONE,
+                    )
+                    Task.objects.create(
+                        user=user,
+                        name="Clean sink",
+                        parent=bathroom,
+                        status=Task.Status.PENDING,
+                    )
+                    Task.objects.create(user=user, name="Empty trashcans", parent=house)
+                    Task.objects.create(user=user, name="Work stuff")
 
-                return redirect("home")
-            else:
-                messages.error(request, "Sign up error:")
-                for field, errors in signup_form.errors.items():
-                    field_name = field.replace("_", " ").title()
-                    if field == "password2":
-                        field_name = "Password"
-                    for error in errors:
-                        message = f"{field_name}: {error}"
-                        messages.error(request, message)
+                    return redirect("home")
+                else:
+                    messages.error(request, "Sign up error:")
+                    for field, errors in signup_form.errors.items():
+                        field_name = field.replace("_", " ").title()
+                        if field == "password2":
+                            field_name = "Password"
+                        for error in errors:
+                            message = f"{field_name}: {error}"
+                            messages.error(request, message)
+
+            except ValidationError as e:
+                messages.error(request, e)
 
         elif "login" in request.POST:
             login_form = LoginForm(request, data=request.POST)
@@ -96,6 +123,7 @@ def landing(request):
         "signup_form": signup_form,
         "login_form": login_form,
         "reset_form": reset_form,
+        "cloudflare_turnstile_site_key": cloudflare_turnstile_site_key,
     }
     return render(
         request,

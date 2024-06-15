@@ -33,14 +33,14 @@
     </div>
     <input class="form-control rounded-start"
            list="search-task-list"
-           placeholder="Type to search"
+           placeholder="Type 3 letters to search"
            name="search-term"
            id="search-term"
            task-id=""
            hx-get="/search_task"
            hx-target="#search-task-list"
            hx-indicator="#search-spinner"
-           hx-trigger="keyup[checkUserKeydown.call(this, event)&&document.getElementById('search-term').value!=''] changed delay:300ms">
+           hx-trigger="keyup[checkUserKeydown.call(this, event)&&document.getElementById('search-term').value.length > 2] changed delay:300ms">
     <button class="btn btn-dark px-2 pb-1 pt-0 border-secondary-subtle"
             title="Go to"
             hx-indicator="#search-spinner"

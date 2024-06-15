@@ -1,4 +1,3 @@
-// Main activation
 var sortablejs_options = {
   group: 'tasks',
   draggable: '.task',
