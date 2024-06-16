@@ -3,3 +3,4 @@ migrations
 .env
 *.png
 *.code-workspace
+staticfiles

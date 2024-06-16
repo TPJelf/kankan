@@ -31,6 +31,11 @@ def validate_turnstile_widget_response(token, request_ip):
         )
 
 
+def reset_done(request):
+    messages.info(request, "Password reset successfully.")
+    return redirect("home")
+
+
 def landing(request):
     signup_form = SignupForm()
     login_form = LoginForm()
@@ -75,17 +80,17 @@ def landing(request):
 
                     return redirect("home")
                 else:
-                    messages.error(request, "Sign up error:")
+                    messages.info(request, "Sign up error:")
                     for field, errors in signup_form.errors.items():
                         field_name = field.replace("_", " ").title()
                         if field == "password2":
                             field_name = "Password"
                         for error in errors:
                             message = f"{field_name}: {error}"
-                            messages.error(request, message)
+                            messages.info(request, message)
 
             except ValidationError as e:
-                messages.error(request, e)
+                messages.info(request, e)
 
         elif "login" in request.POST:
             login_form = LoginForm(request, data=request.POST)
@@ -96,7 +101,7 @@ def landing(request):
                 login(request, user)
                 return redirect("home")
             else:
-                messages.error(request, "Invalid username or password.")
+                messages.info(request, "Invalid username or password.")
 
         elif "reset" in request.POST:
             reset_form = ResetForm(request.POST)
@@ -137,10 +142,6 @@ def logout_user(request):
     return redirect("login")
 
 
-def redirect404(request, exception):
-    return redirect("home")
-
-
 @login_required(login_url="login")
 def account(request):
     change_password_form = ChangePasswordForm(request.user)
@@ -162,7 +163,7 @@ def account(request):
             else:
                 for field, errors in change_password_form.errors.items():
                     for error in errors:
-                        messages.error(request, error)
+                        messages.info(request, error)
 
         elif "delete-account" in request.POST:
             password = request.POST.get("password")
@@ -185,7 +186,7 @@ def account(request):
             else:
                 for field, errors in update_email_form.errors.items():
                     for error in errors:
-                        messages.error(request, error)
+                        messages.info(request, error)
 
         elif "update-apikey" in request.POST:
             apikey = request.POST.get("apikey")
