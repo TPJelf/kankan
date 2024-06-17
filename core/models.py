@@ -196,7 +196,7 @@ class Task(models.Model):
                                 SELECT t.id FROM core_task t
                                 INNER JOIN task_tree tt ON t.parent_id = tt.id
                             )
-                            UPDATE core_task SET status = 3 WHERE id IN (SELECT id FROM task_tree);
+                            UPDATE core_task SET status = 3, updated_on = NOW() WHERE id IN (SELECT id FROM task_tree);
                             """,
                             [self.pk],
                         )
@@ -219,7 +219,7 @@ class Task(models.Model):
                                 SELECT t.id FROM core_task t
                                 INNER JOIN task_tree tt ON t.parent_id = tt.id
                             )
-                            UPDATE core_task SET status = 1 WHERE id IN (SELECT id FROM task_tree);
+                            UPDATE core_task SET status = 1, updated_on = NOW() WHERE id IN (SELECT id FROM task_tree);
                             """,
                             [self.pk],
                         )
