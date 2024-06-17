@@ -8,7 +8,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.http import JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 
 from .forms import *
@@ -292,8 +291,7 @@ def create_task(request, parent_pk):
         if form.is_valid():
             form.save()
         else:
-            detailed_errors = {field: errors for field, errors in form.errors.items()}
-            return JsonResponse({"errors": detailed_errors}, status=400)
+            return HttpResponse(status=400)
 
         if parent is not None:
             return redirect("task", pk=parent.pk)
@@ -351,10 +349,10 @@ def create_ai_tasks(request, parent_pk):
             for task_name in task_names:
                 Task.objects.create(user=request.user, name=task_name, parent=parent)
 
-            return JsonResponse({"message": "Tasks created successfully."}, status=201)
+            return HttpResponse(status=201)
 
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
+        except:
+            return HttpResponse(status=400)
 
 
 @login_required(login_url="login")

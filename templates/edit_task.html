@@ -1,6 +1,5 @@
 {% url 'home' as home_url %}
-<div class="card border-secondary p-2 bg-light-subtle"
-     hx-preserve="false">
+<div class="card border-secondary p-2 bg-light-subtle" hx-preserve="false">
   <form method="post"
         hx-boost="true"
         action="{% url 'edit_task' pk=task.pk %}">
@@ -24,17 +23,16 @@
                 title="Menu"></button>
         <ul class="dropdown-menu bg-secondary-subtle border-0 rounded p-0 fs-5">
           <li>
-            <a class="dropdown-item p-2 rounded-top"
-               type="submit"
-               title="Ok"
-               hx-post="{% url 'edit_task' pk=task.pk %}"
-               hx-target="body"
-               hx-swap="outerHTML"
-               hx-indicator="#main-spinner">👍</a>
+            <button class="dropdown-item p-2 rounded-top"
+                    type="submit"
+                    title="Ok"
+                    hx-post="{% url 'edit_task' pk=task.pk %}"
+                    hx-target="body"
+                    hx-swap="outerHTML"
+                    hx-indicator="#main-spinner">👍</button>
           </li>
           <li>
             <a class="dropdown-item p-2 rounded-bottom"
-               type="button"
                hx-get="{% if request.path == home_url %}{% url 'home' %}{% elif task.parent %}{% url 'task' pk=task.parent.pk %}{% endif %}"
                hx-target="body"
                hx-swap="outerHTML"

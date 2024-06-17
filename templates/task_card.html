@@ -58,14 +58,14 @@
                    title="Edit name">✏️</a>
               </li>
               <li>
-                <a class="dropdown-item p-2 rounded-bottom"
+                <button class="dropdown-item p-2 rounded-bottom"
                    type="button"
                    hx-post="{% url 'delete_task' pk=task.pk %}"
                    hx-target="body"
                    hx-swap="outerHTML"
                    hx-indicator="#main-spinner"
                    hx-confirm="Are you sure you want to delete '{{ task.name }}'? This action will also delete its subtasks."
-                   title="Delete">🗑️</a>
+                   title="Delete">🗑️</button>
               </li>
             </ul>
           </div>
