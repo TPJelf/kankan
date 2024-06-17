@@ -1,9 +1,9 @@
 <h1><img src="static/logo.webp" width="32" height="32"/> kankan</h1>
 
-### Designed to get the ball rolling.
+### Get the ball rolling.
 #### All progress is good progress.
 #### Visualize your objectives and break them down as much as you need.
-#### Start with small steps and track every achievement, no matter how small.
+#### Start with small steps and track every achievement.
 #### Record your journey so you can look back and stay motivated.
 
 ![screenshot](static/screenshot.webp)
