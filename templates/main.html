@@ -104,7 +104,10 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"></script>
+    {% comment %} <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"></script> {% endcomment %}
+    <script src="https://unpkg.com/htmx.org@2.0.0"
+            integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw"
+            crossorigin="anonymous"></script>
     <script src="{% static '/js/script.js' %}"></script>
     <script src="{% static '/js/ai.js' %}" type="module"></script>
   </body>

@@ -28,14 +28,14 @@
                     title="Ok"
                     hx-post="{% url 'edit_task' pk=task.pk %}"
                     hx-target="body"
-                    hx-swap="outerHTML"
+                    hx-swap="innerHTML"
                     hx-indicator="#main-spinner">👍</button>
           </li>
           <li>
             <a class="dropdown-item p-2 rounded-bottom"
-               hx-get="{% if request.path == home_url %}{% url 'home' %}{% elif task.parent %}{% url 'task' pk=task.parent.pk %}{% endif %}"
+               hx-get="{% if task.parent %}{% url 'task' pk=task.parent.pk %}{% else %}{% url 'home' %}{% endif %}"
                hx-target="body"
-               hx-swap="outerHTML"
+               hx-swap="innerHTML"
                hx-indicator="#main-spinner"
                title="Cancel">❌</a>
           </li>

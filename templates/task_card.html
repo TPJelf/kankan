@@ -53,19 +53,19 @@
                 <a class="dropdown-item p-2"
                    hx-get="{% url 'edit_task' pk=task.pk %}"
                    hx-target=".card-{{ task.pk }}"
-                   hx-swap="outerHTML"
+                   hx-swap="innerHTML"
                    hx-indicator="#main-spinner"
                    title="Edit name">✏️</a>
               </li>
               <li>
                 <button class="dropdown-item p-2 rounded-bottom"
-                   type="button"
-                   hx-post="{% url 'delete_task' pk=task.pk %}"
-                   hx-target="body"
-                   hx-swap="outerHTML"
-                   hx-indicator="#main-spinner"
-                   hx-confirm="Are you sure you want to delete '{{ task.name }}'? This action will also delete its subtasks."
-                   title="Delete">🗑️</button>
+                        type="button"
+                        hx-post="{% url 'delete_task' pk=task.pk %}"
+                        hx-target="body"
+                        hx-swap="innerHTML"
+                        hx-indicator="#main-spinner"
+                        hx-confirm="Are you sure you want to delete '{{ task.name }}'? This action will also delete its subtasks."
+                        title="Delete">🗑️</button>
               </li>
             </ul>
           </div>
