@@ -32,7 +32,9 @@ async function run_ai(API_KEY, parent_name, parent_pk, subtasks) {
       source: document.getElementById('button-ai'),
     });
   } else {
-    error_toast('AI FAIL. ALL IS LOST.');
+    error_toast(
+      'Google Gemini failed to provide suggestions, please try again.'
+    );
     document.getElementById('main-spinner').style.opacity = 0;
   }
 }

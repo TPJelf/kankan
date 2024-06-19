@@ -4,3 +4,4 @@ migrations
 *.png
 *.code-workspace
 staticfiles
+*_old
