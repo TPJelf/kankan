@@ -2,9 +2,8 @@
 
 ### Get the ball rolling.
 #### All progress is good progress.
-#### Visualize your objectives and break them down as much as you need.
-#### Start with small steps and track every achievement.
-#### Record your journey so you can look back and stay motivated.
+#### Use nested Kanban boards to break down your goals as much as you need.
+#### Record every step so you can look back and stay motivated.
 
 ![screenshot](static/screenshot.webp)
 
