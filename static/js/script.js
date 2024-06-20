@@ -154,10 +154,11 @@ document.addEventListener('htmx:beforeRequest', (event) => {
 // HTMX error handling goes here.
 document.addEventListener('htmx:afterRequest', (event) => {
   if (!event.detail.successful) {
+    // No pending tasks dice error reload hack
     if (event.detail.elt.id == 'dice-button') {
       htmx.ajax('GET', window.location.href, {
         target: 'body',
-        source: event.detail.elt,
+        source: event.detail.elt.parentNode,
       });
     } else {
       error_toast();
