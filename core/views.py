@@ -30,7 +30,7 @@ def validate_turnstile_widget_response(token, request_ip):
         )
 
 
-def reset_done(request):
+def password_reset_done(request):
     messages.info(request, "Password reset successfully.")
     return redirect("home")
 

@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path("", views.landing, name="login"),
     path("accounts/login/", views.landing, name="login"),
-    path("reset/done/", views.reset_done, name="reset_done"),
+    path("reset/done/", views.password_reset_done, name="password_reset_done"),
     path("logout/", views.logout_user, name="logout"),
     path("account/", views.account, name="account"),
     path("home/", views.home, name="home"),
@@ -40,9 +40,9 @@ urlpatterns = [
         auth_views.PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
-    path(
-        "reset/done/",
-        auth_views.PasswordResetCompleteView.as_view(),
-        name="password_reset_complete",
-    ),
+    # path(
+    #     "reset/done/",
+    #     auth_views.PasswordResetCompleteView.as_view(),
+    #     name="password_reset_complete",
+    # ),
 ]

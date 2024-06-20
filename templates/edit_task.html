@@ -1,8 +1,6 @@
 {% url 'home' as home_url %}
 <div class="card border-secondary p-2 bg-light-subtle">
-  <form method="post"
-        hx-boost="true"
-        action="{% url 'edit_task' pk=task.pk %}">
+  <form method="POST" action="{% url 'edit_task' pk=task.pk %}">
     {% csrf_token %}
     <div class="input-group input-group-lg">
       <textarea class="form-control"
@@ -24,8 +22,8 @@
         <ul class="dropdown-menu bg-secondary-subtle border-0 rounded p-0 fs-5">
           <li>
             <button class="dropdown-item p-2 rounded-top"
-                    type="submit"
                     title="Ok"
+                    type="submit"
                     hx-post="{% url 'edit_task' pk=task.pk %}"
                     hx-target="body"
                     hx-swap="innerHTML"
@@ -33,11 +31,12 @@
           </li>
           <li>
             <a class="dropdown-item p-2 rounded-bottom"
+               title="Cancel"
+               href="{% if task.parent %}{% url 'task' pk=task.parent.pk %}{% else %}{% url 'home' %}{% endif %}"
                hx-get="{% if task.parent %}{% url 'task' pk=task.parent.pk %}{% else %}{% url 'home' %}{% endif %}"
                hx-target="body"
                hx-swap="innerHTML"
-               hx-indicator="#main-spinner"
-               title="Cancel">❌</a>
+               hx-indicator="#main-spinner">❌</a>
           </li>
         </ul>
       </div>
