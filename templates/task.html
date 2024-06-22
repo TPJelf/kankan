@@ -3,21 +3,29 @@
 {% load custom_filters %}
 {% block content %}
   <div class="pb-1">
-    <small>
+    <small class="d-flex flex-wrap">
       {% spaceless %}
-        <span>Go to&nbsp</span>
-        <a href="{% url "home" %}"
-           hx-boost="true"
-           hx-indicator="#main-spinner"
-           hx-push-url="true">Home</a>
-        {% if parent.parent %}
-          <span>&nbsp· Go up one level:&nbsp</span>
-          <a href="{% url "task" parent.parent.pk %}"
+        <span>
+          <span>Go to&nbsp</span>
+          <a href="{% url "home" %}"
              hx-boost="true"
-             hx-push-url="true"
              hx-indicator="#main-spinner"
-             title="{{ parent.parent.name|remove_linebreaks }}">{{ parent.parent.name|truncatechars:50 }}</a>
+             hx-push-url="true">Home</a>
+        </span>
+        {% if parent.parent %}
+          <span class="d-block d-sm-inline">
+            <span>&nbsp· Go up one level:&nbsp</span>
+            <a href="{% url "task" parent.parent.pk %}"
+               hx-boost="true"
+               hx-push-url="true"
+               hx-indicator="#main-spinner"
+               title="{{ parent.parent.name|remove_linebreaks }}">{{ parent.parent.name|truncatechars:50 }}</a>
+          </span>
         {% endif %}
+        <span class="d-block d-sm-inline">
+          <span>&nbsp· Last update:&nbsp</span>
+          <span id="last-update">{{ parent.last_update|date:'Y-m-d' }}</span>
+        </span>
       {% endspaceless %}
     </small>
   </div>

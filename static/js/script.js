@@ -29,6 +29,11 @@ var sortablejs_options = {
       htmx.process(task);
 
       task = event.item;
+      last_update = document.getElementById('last-update');
+
+      var current_date = new Date();
+      var formatted_date = current_date.toISOString().split('T')[0];
+      last_update.innerHTML = formatted_date;
       htmx.trigger(task, 'update_task_position');
       if (new_task_status == 3 && event.from.parentNode.id.split('-')[1] != 3) {
         shoot_confetti();

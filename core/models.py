@@ -51,6 +51,10 @@ class Task(models.Model):
     def __str__(self):
         return self.name
 
+    def last_update(self):
+        last_subtask = Task.objects.filter(parent=self).order_by("-updated_on").first()
+        return last_subtask.updated_on if last_subtask else self.updated_on
+
     def count_recently_updated_subtasks(self):
         now = timezone.now()
         last_24_hours = now - timedelta(hours=24)
