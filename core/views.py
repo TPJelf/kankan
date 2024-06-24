@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 
 from .forms import *
-from .models import Settings, Task
+from .models import Announcements, Settings, Task
 
 
 def validate_turnstile_widget_response(token, request_ip):
@@ -51,6 +51,9 @@ def landing(request):
                 if signup_form.is_valid():
                     user = signup_form.save()
                     login(request, user)
+
+                    # Create settings
+                    Settings.objects.create(user=user)
 
                     # Create base tasks and subtasks
                     selfcare = Task.objects.create(user=user, name="Self care")
@@ -147,12 +150,6 @@ def account(request):
     update_email_form = UpdateEmailForm(instance=request.user)
     title = "Account"
 
-    try:
-        settings = Settings.objects.get(user=request.user)
-        apikey = settings.ai_apikey
-    except:
-        apikey = ""
-
     if request.method == "POST":
         if "change-password" in request.POST:
             change_password_form = ChangePasswordForm(request.user, request.POST)
@@ -177,27 +174,29 @@ def account(request):
             else:
                 messages.info(request, "Incorrect password. Account deletion failed.")
 
-        elif "update-email" in request.POST:
+        elif "set-email" in request.POST:
             update_email_form = UpdateEmailForm(request.POST, instance=request.user)
             if update_email_form.is_valid():
                 update_email_form.save()
-                messages.info(request, "Email updated successfully.")
+                messages.info(request, "Email set successfully.")
             else:
                 for field, errors in update_email_form.errors.items():
                     for error in errors:
                         messages.info(request, error)
 
-        elif "update-apikey" in request.POST:
-            apikey = request.POST.get("apikey")
+        elif "set-apikey" in request.POST:
+            ai_apikey = request.POST.get("ai-apikey")
             settings, created = Settings.objects.update_or_create(
-                user=request.user, defaults={"ai_apikey": apikey}
+                user=request.user, defaults={"ai_apikey": ai_apikey}
             )
-            messages.info(request, "API key updated successfully.")
+            messages.info(request, "API key set successfully.")
+
+    settings, created = Settings.objects.get_or_create(user=request.user)
 
     context = {
         "change_password_form": change_password_form,
         "update_email_form": update_email_form,
-        "apikey": apikey,
+        "settings": settings,
         "title": title,
     }
 
@@ -213,6 +212,17 @@ def home(request):
         parent__isnull=False,
     ).exists()
     tasks = tasks.filter(parent=None)
+
+    user = request.user
+    try:
+        announcement = Announcements.objects.latest("created_on")
+    except Announcements.DoesNotExist:
+        announcement = None
+
+    # Show the announcement if the user hasn't seen it yet
+    if announcement and user not in announcement.seen_by.all():
+        messages.info(request, announcement.message)
+        announcement.seen_by.add(user)
 
     for task in tasks:
         counts = task.count_recently_updated_subtasks()
@@ -243,18 +253,14 @@ def task(request, pk):
     tasks_inprogress = tasks.filter(status=Task.Status.INPROGRESS)
     tasks_done = tasks.filter(status=Task.Status.DONE)
 
-    try:
-        settings = Settings.objects.get(user=request.user)
-        apikey = settings.ai_apikey
-    except:
-        apikey = ""
+    settings, created = Settings.objects.get_or_create(user=request.user)
 
     context = {
         "tasks": tasks,
         "pending": pending,
         "parent_pk": parent.pk,
         "title": title,
-        "apikey": apikey,
+        "settings": settings,
         "parent": parent,
         "tasks_pending": tasks_pending,
         "tasks_inprogress": tasks_inprogress,
@@ -367,3 +373,15 @@ def search_task(request):
         tasks = None
     context = {"tasks": tasks}
     return render(request, "search_task.html", context)
+
+
+@login_required(login_url="login")
+def show_ai_button(request):
+    if request.method == "POST":
+        settings = get_object_or_404(Settings, user=request.user)
+        if request.POST.get("show-ai-button"):
+            settings.show_ai_button = True
+        else:
+            settings.show_ai_button = False
+        settings.save()
+        return HttpResponse(status=200)

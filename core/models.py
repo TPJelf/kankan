@@ -15,7 +15,17 @@ class Settings(models.Model):
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="settings")
-    ai_apikey = models.CharField(max_length=255, null=True, blank=True)
+    ai_apikey = models.CharField(max_length=255, null=True, blank=True, default="")
+    show_ai_button = models.BooleanField(default=True)
+
+
+class Announcements(models.Model):
+    message = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    seen_by = models.ManyToManyField(User, blank=True)
+
+    def __str__(self):
+        return self.message
 
 
 class Task(models.Model):

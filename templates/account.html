@@ -15,6 +15,19 @@
     <div class="col-lg-4 col-sm-12 p-1">
       <div class="card mb-2">
         <div class="card-body">
+          <div class="form-check form-switch pb-2">
+            <form hx-post="{% url 'show_ai_button' %}"
+                  hx-trigger="change"
+                  hx-swap="none">
+              <input class="form-check-input"
+                     type="checkbox"
+                     role="switch"
+                     id="show-ai-button"
+                     {% if settings.show_ai_button %}checked{% endif %}
+                     name="show-ai-button">
+            </form>
+            <label class="form-check-label" for="show-ai-button">Show AI suggestions button when fewer than 4 tasks</label>
+          </div>
           <div class="pb-2">
             To enable the AI feature get your free Google Gemini API key here: <a href="https://aistudio.google.com/app/apikey" target="_blank">https://aistudio.google.com/app/apikey</a>
           </div>
@@ -24,13 +37,13 @@
                 action="{% url 'account' %}">
             {% csrf_token %}
             <div class="form-floating pb-3">
-              <input type="text" class="form-control" id="apikey" name="apikey" placeholder="Enter Google AI API Key" {% if apikey != "" %}value={{ apikey }}{% endif %}>
-              <label for="apikey">Enter Google Gemini API Key:</label>
+              <input type="text" class="form-control" id="ai-apikey" name="ai-apikey" placeholder="Enter Google AI API Key" {% if settings.ai_apikey != "" %}value={{ settings.ai_apikey }}{% endif %}>
+              <label for="ai-apikey">Enter Google Gemini API Key:</label>
             </div>
             <div class="text-end">
               <button type="submit"
                       class="btn btn-outline-light rounded-pill px-4"
-                      name="update-apikey">Set API Key</button>
+                      name="set-apikey">Set API Key</button>
             </div>
           </form>
         </div>
@@ -55,7 +68,7 @@
             <div class="text-end">
               <button type="submit"
                       class="btn btn-outline-light rounded-pill px-4"
-                      name="change-password">Set password</button>
+                      name="change-password">Change password</button>
             </div>
           </form>
         </div>
@@ -76,7 +89,7 @@
             <div class="text-end">
               <button type="submit"
                       class="btn btn-outline-light rounded-pill px-4"
-                      name="update-email">Set email</button>
+                      name="set-email">Set email</button>
             </div>
           </form>
         </div>

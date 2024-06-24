@@ -29,8 +29,12 @@
     <main class="container mb-5 pb-5 user-select-none" id="main-content">
       {% include "navbar.html" %}
       {% if messages %}
-        <div class="alert alert-warning p-2 mt-2 mb-0 text-center">
+        <div class="alert alert-warning alert-dismissible show mt-2 mb-1 text-center">
           {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"></button>
         </div>
       {% endif %}
       {% block content %}

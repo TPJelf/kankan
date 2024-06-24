@@ -35,10 +35,10 @@
       <div class="status-body border rounded-2 border-primary bg-primary-subtle pb-5">
         <h4 class="m-0 p-1">Pending tasks</h4>
         {% include "create_task.html" %}
-        {% if tasks|length < 4 %}
+        {% if tasks|length < 4 and settings.show_ai_button %}
           <div class="p-1">
             <a class="btn btn-primary btn-lg w-100"
-               {% if apikey %}id="button-ai"{% else %} href="{% url 'account' %}" hx-boost="true" hx-indicator="#main-spinner"{% endif %}>✨Get AI suggestions</a>
+               {% if settings.ai_apikey %}id="button-ai"{% else %} href="{% url 'account' %}" hx-boost="true" hx-indicator="#main-spinner"{% endif %}>✨Get AI suggestions</a>
           </div>
         {% endif %}
         {% for task in tasks_pending %}
@@ -64,7 +64,7 @@
     </div>
   </div>
   <script>
-    var API_KEY = "{{ apikey }}";
+    var API_KEY = "{{ settings.ai_apikey }}";
     var parent_name = "{{ parent.name }}";
     var parent_pk = {{ parent.pk }};
     {% if tasks %}

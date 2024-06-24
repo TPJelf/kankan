@@ -9,6 +9,7 @@ urlpatterns = [
     path("reset/done/", views.password_reset_done, name="password_reset_done"),
     path("logout/", views.logout_user, name="logout"),
     path("account/", views.account, name="account"),
+    path("account/show_ai_button/", views.show_ai_button, name="show_ai_button"),
     path("home/", views.home, name="home"),
     path("task/<int:pk>/", views.task, name="task"),
     path("delete_task/<int:pk>/", views.delete_task, name="delete_task"),
@@ -40,9 +41,4 @@ urlpatterns = [
         auth_views.PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
-    # path(
-    #     "reset/done/",
-    #     auth_views.PasswordResetCompleteView.as_view(),
-    #     name="password_reset_complete",
-    # ),
 ]
