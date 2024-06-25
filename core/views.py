@@ -193,11 +193,14 @@ def account(request):
 
     settings, created = Settings.objects.get_or_create(user=request.user)
 
+    announcements = Announcements.objects.order_by("-created_on")[:5]
+
     context = {
         "change_password_form": change_password_form,
         "update_email_form": update_email_form,
         "settings": settings,
         "title": title,
+        "announcements": announcements,
     }
 
     return render(request, "account.html", context)

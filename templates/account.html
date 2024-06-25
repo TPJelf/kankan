@@ -105,6 +105,14 @@
         </div>
       </div>
     </div>
+    <div class="col-lg-4 col-sm-12 p-1">
+      <div class="card mb-2">
+        <div class="card-body d-grid">
+          <h5>Announcements:</h5>
+          {% for ann in announcements %}<div>{{ ann.message }} - {{ ann.created_on|date:'Y-m-d' }}</div>{% endfor %}
+        </div>
+      </div>
+    </div>
   </div>
   <div class="modal fade"
        id="deleteAccountModal"
