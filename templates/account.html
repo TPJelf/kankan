@@ -109,7 +109,9 @@
       <div class="card mb-2">
         <div class="card-body d-grid">
           <h5>Announcements:</h5>
-          {% for ann in announcements %}<div>{{ ann.message }} - {{ ann.created_on|date:'Y-m-d' }}</div>{% endfor %}
+          <ul class="ps-3 mb-0">
+            {% for ann in announcements %}<li>{{ ann.message }} - {{ ann.created_on|date:'Y-m-d' }}</li>{% endfor %}
+          </ul>
         </div>
       </div>
     </div>
