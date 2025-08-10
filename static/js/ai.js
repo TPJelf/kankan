@@ -14,9 +14,26 @@ async function run_ai(API_KEY, parent_name, parent_pk, subtasks) {
   const result = await model.generateContent(prompt);
   const response = await result.response;
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  const task_names = response.text();
+  let task_names = response.text();
   const fetch_url = '/create_ai_tasks/' + parent_pk + '/';
 
+  const jsonMatch = task_names.match(/```json\n([\s\S]*?)\n```/);
+  
+  if (jsonMatch) {
+    try {
+      task_names = JSON.parse(jsonMatch[1]);
+      console.log('Parsed task_names:', task_names);
+    } catch (e) {
+      console.error('Failed to parse extracted JSON:', e);
+      error_toast('Failed to parse AI response');
+      return;
+    }
+  } else {
+    console.error('No JSON code block found in AI response');
+    error_toast('Invalid AI response format');
+    return;
+  }
+  
   const payload = await fetch(fetch_url, {
     method: 'POST',
     headers: {
